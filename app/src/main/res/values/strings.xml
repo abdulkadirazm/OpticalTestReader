@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Optical Test Reader</string>
+    <string name="title_activity_home_page">HomePage</string>
+    <string name="rate">Answers: </string>
+</resources>

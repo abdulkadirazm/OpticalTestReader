@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1022370733859",
+    "firebase_url": "https://optical-test-reader-ec13f.firebaseio.com",
+    "project_id": "optical-test-reader-ec13f",
+    "storage_bucket": "optical-test-reader-ec13f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1022370733859:android:a2a7e96d73be2979",
+        "android_client_info": {
+          "package_name": "com.iuce.opticaltestreader"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1022370733859-umg0rdip317ustkdt3i01d0jr7j0utv8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCd_6Z-W6cnVkOUb4od6PSqRPe8tli-uNU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1022370733859-umg0rdip317ustkdt3i01d0jr7j0utv8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
