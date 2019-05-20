@@ -34,7 +34,8 @@
             android:textColor="@color/white"
             android:textColorHint="@color/white"
             android:textSize="18sp"
-            android:imeOptions="actionNext"/>
+            android:imeOptions="actionNext"
+            android:theme="@style/Autocomplete"/>
 
     </android.support.design.widget.TextInputLayout>
 
@@ -53,7 +54,8 @@
             android:textColor="@color/white"
             android:textColorHint="@color/white"
             android:textSize="18sp"
-            android:imeOptions="actionNext"/>
+            android:imeOptions="actionNext"
+            android:theme="@style/Autocomplete"/>
 
     </android.support.design.widget.TextInputLayout>
 
