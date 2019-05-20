@@ -1,6 +1,6 @@
 /*
  * This file is auto-generated.  DO NOT MODIFY.
- * Original file: E:\\IBRAHIM\\BitirmeProjesi\\OpticalTestReader-master\\openCVLibrary345\\src\\main\\aidl\\org\\opencv\\engine\\OpenCVEngineInterface.aidl
+ * Original file: C:\\Users\\Lenovo\\Documents\\GitHub\\OpticalTestReader\\openCVLibrary345\\src\\main\\aidl\\org\\opencv\\engine\\OpenCVEngineInterface.aidl
  */
 package org.opencv.engine;
 /**

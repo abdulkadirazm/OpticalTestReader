@@ -136,12 +136,8 @@ public class HomePage extends AppCompatActivity {
             }
         });
 
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showPictureDialog();
-            }
-        });
+        btn.setOnClickListener(v -> showPictureDialog());
+
     }
 
     @Override
