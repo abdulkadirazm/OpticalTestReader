@@ -95,10 +95,11 @@ public class HomePage extends AppCompatActivity {
         requestMultiplePermissions();
 
         buttonAnswer = findViewById(R.id.buttonAnswer);
+        logOut = findViewById(R.id.logOut);
         btn =  findViewById(R.id.btn);
         imageView = findViewById(R.id.imageView);
         textEmail = findViewById(R.id.textEmail);
-        logOut = findViewById(R.id.logOut);
+
 
         firebaseAuth = FirebaseAuth.getInstance();
 
@@ -111,30 +112,17 @@ public class HomePage extends AppCompatActivity {
 
         textEmail.setText("Welcome " + user.getEmail());
 
-        buttonAnswer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(HomePage.this,AnswerKey.class));
-            }
+        buttonAnswer.setOnClickListener(v -> startActivity(new Intent(HomePage.this,AnswerKeyActivity.class)));
+
+        logOut.setOnClickListener(v -> {
+            firebaseAuth.signOut();
+            startActivity(new Intent(HomePage.this,Login.class));
+            finish();
         });
 
-        logOut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                firebaseAuth.signOut();
-                startActivity(new Intent(HomePage.this,Login.class));
-                finish();
-            }
-        });
-
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(HomePage.this,
-                        "The favorite list would appear on clicking this icon " + path,
-                        Toast.LENGTH_LONG).show();
-            }
-        });
+        imageView.setOnClickListener(v -> Toast.makeText(HomePage.this,
+                "The favorite list would appear on clicking this icon " + path,
+                Toast.LENGTH_LONG).show());
 
         btn.setOnClickListener(v -> showPictureDialog());
 
