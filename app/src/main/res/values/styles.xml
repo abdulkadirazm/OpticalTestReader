@@ -3,13 +3,13 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimary">@color/bg_gradient_end</item>
+        <item name="colorPrimaryDark">@color/bg_gradient_start</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
     <style name="Autocomplete">
-        <item name="colorControlNormal">#FFF</item>
+        <item name="colorControlNormal">@color/bg_gradient_end</item>
         <item name="colorControlActivated">#FFF</item>
     </style>
 

@@ -2,13 +2,26 @@
 <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="?android:attr/windowBackground"
+        app:itemIconTint="@color/bg_gradient_start"
+        app:itemTextColor="#000"
+        app:menu="@menu/navigation">
+
+    </android.support.design.widget.BottomNavigationView>
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_gradient">
+        android:background="@color/bg_gradient_start">
 
         <TextView
             android:id="@+id/toolBarTitle"
@@ -72,21 +85,21 @@
                 android:layout_marginBottom="20dp"/>
 
             <Button
-                android:id="@+id/logOut"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bg_gradient"
-                android:text="Log Out"
-                android:textColor="#FFF"
-                android:layout_gravity="center"
-                android:layout_margin="5dp"/>
-
-            <Button
                 android:id="@+id/buttonAnswer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/button"
                 android:text="Answer Key"
+                android:textColor="#FFF"
+                android:layout_gravity="center"
+                android:layout_margin="5dp"/>
+
+            <Button
+                android:id="@+id/logOut"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_gradient"
+                android:text="Log Out"
                 android:textColor="#FFF"
                 android:layout_gravity="center"
                 android:layout_margin="5dp"/>
