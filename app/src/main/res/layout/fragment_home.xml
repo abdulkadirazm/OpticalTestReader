@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/relative"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/bg_gradient_start"
+        android:layout_above="@+id/relative"
+        tools:ignore="NotSibling">
+
+        <TextView
+            android:id="@+id/toolBarTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Home Page"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:textColor="#FFF"/>
+
+    </android.support.v7.widget.Toolbar>
+
+    <FrameLayout
+        android:id="@+id/content_frame2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/navigation"
+        android:layout_marginTop="?actionBarSize">
+
+    </FrameLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolBar">
+
+        <LinearLayout
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            tools:context=".HomePage">
+
+            <ImageView
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:src="@drawable/camera_icon"
+                android:id="@+id/imageView"/>
+
+            <TextView
+                android:id="@+id/rate"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/rate"
+                android:layout_marginTop="20dp"
+                android:layout_gravity="center"
+                android:gravity="center"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnGetImage"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="40dp"
+                android:text="Select or Capture Image"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/button"
+                android:textColor="#FFF"
+                android:padding="15dp"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</RelativeLayout>

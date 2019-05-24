@@ -131,6 +131,10 @@ public class Scanner {
             builder.append(details + "\n");
         }
 
+        String result = String.format("\n\n\n" + "Dogru: %d    Yanlis: %d     Bos: %d    Score: %d", correct,incorrect,empty,score);
+
+        builder.append(result);
+
         write2File(source, "result.png");
 
         this.idx = 0;
