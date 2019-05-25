@@ -18,6 +18,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class Login extends AppCompatActivity implements View.OnClickListener {
 
     private Button forgetPassword;
@@ -70,32 +73,32 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
             startActivity(new Intent(Login.this,SignUp.class));
     }
 
+    public boolean isEmailValid(String email) {
+        final String EMAIL_PATTERN =
+                "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+        final Pattern pattern = Pattern.compile(EMAIL_PATTERN);
+        final Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
+    }
+
     private void userLogin() {
 
         String email = loginEmail.getText().toString().trim();
         String password = loginPassword.getText().toString().trim();
 
-        if (TextUtils.isEmpty(email)){
-            //email is empty
-            Toast.makeText(getApplicationContext(),"Please enter email",Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if (TextUtils.isEmpty(password)){
-            //password is empty
-            Toast.makeText(getApplicationContext(),"Please enter password",Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if (password.length() < 6){
-            //password is minimum 6 character
+        if (email.isEmpty()){
+            Toast.makeText(getApplicationContext(),"Email should not be empty",Toast.LENGTH_LONG).show();
+        } else if (!isEmailValid(email)){
+            Toast.makeText(getApplicationContext(),"Enter valid email",Toast.LENGTH_SHORT).show();
+        } else if (password.isEmpty()){
+            Toast.makeText(getApplicationContext(),"Password should not be empty",Toast.LENGTH_SHORT).show();
+        } else if (password.length() < 6){
             Toast.makeText(getApplicationContext(),"Password too short, enter minimum 6 characters!",Toast.LENGTH_SHORT).show();
-        }
+        } else {
+            progressDialog.setMessage("Registering Please Wait..");
+            progressDialog.show();
 
-        progressDialog.setMessage("Registering Please Wait..");
-        progressDialog.show();
-
-        firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
+            firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
 
                 progressDialog.dismiss();
 
@@ -106,8 +109,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                 if (!task.isSuccessful()){
                     Toast.makeText(getApplicationContext(),"Error! the password may be incorrect", Toast.LENGTH_SHORT).show();
                 }
-            }
-        });
+            });
+        }
     }
 
     private void forgetPassword() {
@@ -117,38 +120,32 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         final AutoCompleteTextView reset_password_email = dialog.findViewById(R.id.reset_password_email);
         final Button resetPassword = dialog.findViewById(R.id.resetPassword);
 
-        resetPassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        resetPassword.setOnClickListener(v -> {
 
-                String email = reset_password_email.getText().toString().trim();
+            String email = reset_password_email.getText().toString().trim();
 
-                if (TextUtils.isEmpty(email)){
-                    //email is empty
-                    Toast.makeText(getApplicationContext(),"Please enter email",Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                final String email_new = ((AutoCompleteTextView) dialog.findViewById(R.id.reset_password_email)).getText().toString();
-
-                progressDialog.setMessage("Please wait...");
-                progressDialog.show();
-
-                firebaseAuth.sendPasswordResetEmail(email_new).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()){
-                            Toast.makeText(getApplicationContext(),
-                                    "Reset password code has been emailed to " + email_new,Toast.LENGTH_LONG).show();
-                            reset_password_email.setText("");
-                        }
-                        else{
-                            Toast.makeText(getApplicationContext(),
-                                    "There is a problem with reset password, try latter!"+email_new,Toast.LENGTH_SHORT).show();
-                        }
-                        progressDialog.dismiss();
-                    }
-                });
+            if (TextUtils.isEmpty(email)){
+                //email is empty
+                Toast.makeText(getApplicationContext(),"Please enter email",Toast.LENGTH_SHORT).show();
+                return;
             }
+            final String email_new = ((AutoCompleteTextView) dialog.findViewById(R.id.reset_password_email)).getText().toString();
+
+            progressDialog.setMessage("Please wait...");
+            progressDialog.show();
+
+            firebaseAuth.sendPasswordResetEmail(email_new).addOnCompleteListener(task -> {
+                if (task.isSuccessful()){
+                    Toast.makeText(getApplicationContext(),
+                            "Reset password code has been emailed to " + email_new,Toast.LENGTH_LONG).show();
+                    reset_password_email.setText("");
+                }
+                else{
+                    Toast.makeText(getApplicationContext(),
+                            "There is a problem with reset password, try latter!"+email_new,Toast.LENGTH_SHORT).show();
+                }
+                progressDialog.dismiss();
+            });
         });
         dialog.show();
     }
