@@ -87,9 +87,11 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         String password = loginPassword.getText().toString().trim();
 
         if (email.isEmpty()){
-            Toast.makeText(getApplicationContext(),"Email should not be empty",Toast.LENGTH_LONG).show();
+            //Toast.makeText(getApplicationContext(),"Email should not be empty",Toast.LENGTH_LONG).show();
+            loginEmail.setError("Email should not be");
         } else if (!isEmailValid(email)){
-            Toast.makeText(getApplicationContext(),"Enter valid email",Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getApplicationContext(),"Enter valid email",Toast.LENGTH_SHORT).show();
+            loginEmail.setError("Enter valid email");
         } else if (password.isEmpty()){
             Toast.makeText(getApplicationContext(),"Password should not be empty",Toast.LENGTH_SHORT).show();
         } else if (password.length() < 6){

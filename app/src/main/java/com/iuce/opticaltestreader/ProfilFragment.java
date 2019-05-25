@@ -9,7 +9,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,12 +22,19 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class ProfilFragment extends Fragment {
 
     public FirebaseAuth firebaseAuth;
     public Button btnSignout;
     public TextView textName;
+    private ListView profilListview;
+    private List<String> LiftSaves = new ArrayList<String>();
+
+    public String[] links = {"Tutorial","Answer Sheets","Open Source Libraries","Privacy Policy","Contact Us","About"};
 
     public ProfilFragment() {
         // Required empty public constructor
@@ -40,9 +49,16 @@ public class ProfilFragment extends Fragment {
 
         textName = view.findViewById(R.id.textName);
         btnSignout = view.findViewById(R.id.btnSignout);
+        profilListview = view.findViewById(R.id.profilListview);
         firebaseAuth = FirebaseAuth.getInstance();
 
+        // Firebase Signout Click
         btnSignout.setOnClickListener(v -> logOut());
+
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getActivity(),
+                android.R.layout.simple_list_item_1,android.R.id.text1,links);
+        profilListview.setAdapter(arrayAdapter);
+
 
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("User");
         databaseReference.addValueEventListener(new ValueEventListener() {

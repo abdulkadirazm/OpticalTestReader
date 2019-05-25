@@ -31,7 +31,14 @@
         android:textColor="@color/bg_gradient_start"
         android:textSize="18dp"
         android:layout_below="@+id/toolBar"
-        android:layout_marginTop="20dp"/>
+        android:layout_marginTop="10dp"/>
+
+    <ListView
+        android:id="@+id/profilListview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textName"
+        android:layout_above="@+id/btnSignout"/>
 
     <Button
         android:id="@+id/btnSignout"
