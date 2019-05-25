@@ -10,20 +10,28 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class SignUp extends AppCompatActivity implements View.OnClickListener  {
 
     private Button signUp;
     private Button loginNow;
 
+    private AutoCompleteTextView signUpName;
     private AutoCompleteTextView signUpEmail;
     private AutoCompleteTextView signUpPassword;
+
 
     private FirebaseAuth firebaseAuth;
 
@@ -38,6 +46,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener  {
         signUp = findViewById(R.id.signUp);
         loginNow = findViewById(R.id.loginNow);
 
+        signUpName = findViewById(R.id.signUpName);
         signUpEmail = findViewById(R.id.signUpEmail);
         signUpPassword = findViewById(R.id.signUpPassword);
 
@@ -60,31 +69,40 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener  {
         }
     }
 
+    public boolean isEmailValid(String email) {
+        final String EMAIL_PATTERN =
+                "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+        final Pattern pattern = Pattern.compile(EMAIL_PATTERN);
+        final Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
+    }
+
     private void registerUser() {
+        String name = signUpName.getText().toString().trim();
         String email = signUpEmail.getText().toString().trim();
         String password = signUpPassword.getText().toString().trim();
 
-        if (TextUtils.isEmpty(email)){
-            //email is empty
-            Toast.makeText(getApplicationContext(),"Please enter email",Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if (TextUtils.isEmpty(password)){
-            //password is empty
-            Toast.makeText(getApplicationContext(),"Please enter password",Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if (password.length() < 6){
-            //password is minimum 6 character
+        if (name.isEmpty()){
+            Toast.makeText(getApplicationContext(),"Name should not be empty",Toast.LENGTH_SHORT).show();
+        } else if (email.isEmpty()){
+            Toast.makeText(getApplicationContext(),"Email should not be empty",Toast.LENGTH_SHORT).show();
+        } else if (!isEmailValid(email)){
+            Toast.makeText(getApplicationContext(),"Enter valid email",Toast.LENGTH_LONG).show();
+        } else if (password.isEmpty()){
+            Toast.makeText(getApplicationContext(),"Password should not be empty",Toast.LENGTH_SHORT).show();
+        } else if (password.length() < 6){
             Toast.makeText(getApplicationContext(),"Password too short, enter minimum 6 characters!",Toast.LENGTH_SHORT).show();
-        }
+        } else {
+            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("User");
+            User user = new User();
 
-        progressDialog.setMessage("Registering User...");
-        progressDialog.show();
+            user.setName(signUpName.getText().toString());
+            databaseReference.push().setValue(user);
 
-        firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
+            progressDialog.setMessage("Registering User...");
+            progressDialog.show();
+
+            firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, task -> {
 
                 if (task.isSuccessful()){
 
@@ -96,7 +114,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener  {
                 } else {
                     Toast.makeText(getApplicationContext(),"Could not register.Please try again",Toast.LENGTH_SHORT).show();
                 }
-            }
-        });
+            });
+        }
     }
 }

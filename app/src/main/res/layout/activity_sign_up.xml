@@ -10,15 +10,36 @@
     tools:context=".SignUp">
 
     <ImageView
-        android:layout_width="250dp"
-        android:layout_height="250dp"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
         android:src="@drawable/logo"
         android:layout_gravity="center"/>
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp">
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
+
+        <AutoCompleteTextView
+            android:id="@+id/signUpName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Name"
+            android:inputType="textPersonName"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            android:textSize="18sp"
+            android:imeOptions="actionNext"
+            android:theme="@style/Autocomplete"/>
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
 
         <AutoCompleteTextView
             android:id="@+id/signUpEmail"
@@ -38,7 +59,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:passwordToggleEnabled="true"
-        android:layout_margin="20dp">
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
 
         <AutoCompleteTextView
             android:id="@+id/signUpPassword"
@@ -49,7 +71,7 @@
             android:textColor="@color/white"
             android:textColorHint="@color/white"
             android:textSize="18sp"
-            android:imeOptions="actionNext"
+            android:imeOptions="actionSend"
             android:theme="@style/Autocomplete"/>
 
     </android.support.design.widget.TextInputLayout>
@@ -62,7 +84,9 @@
         android:text="Sign Up"
         android:textColor="@color/white"
         android:background="@drawable/button"
-        android:layout_margin="20dp"/>
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="40dp"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
