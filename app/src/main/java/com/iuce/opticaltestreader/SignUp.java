@@ -83,11 +83,14 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener  {
         String password = signUpPassword.getText().toString().trim();
 
         if (name.isEmpty()){
-            Toast.makeText(getApplicationContext(),"Name should not be empty",Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getApplicationContext(),"Name should not be empty",Toast.LENGTH_SHORT).show();
+            signUpName.setError("Name should not be empty");
         } else if (email.isEmpty()){
-            Toast.makeText(getApplicationContext(),"Email should not be empty",Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getApplicationContext(),"Email should not be empty",Toast.LENGTH_SHORT).show();
+            signUpEmail.setError("Email should not be empty");
         } else if (!isEmailValid(email)){
-            Toast.makeText(getApplicationContext(),"Enter valid email",Toast.LENGTH_LONG).show();
+            //Toast.makeText(getApplicationContext(),"Enter valid email",Toast.LENGTH_LONG).show();
+            signUpEmail.setError("Enter valid email");
         } else if (password.isEmpty()){
             Toast.makeText(getApplicationContext(),"Password should not be empty",Toast.LENGTH_SHORT).show();
         } else if (password.length() < 6){

@@ -21,7 +21,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".AnswerKeyActivity" />
         <activity android:name=".HomePage" />
         <activity android:name=".SignUp" />
         <activity android:name=".Login" />
