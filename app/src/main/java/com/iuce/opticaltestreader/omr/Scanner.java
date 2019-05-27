@@ -1,6 +1,6 @@
 package com.iuce.opticaltestreader.omr;
 
-import org.opencv.core.Core;
+import  org.opencv.core.Core;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
@@ -131,7 +131,7 @@ public class Scanner {
             builder.append(details + "\n");
         }
 
-        String result = String.format("\n\n\n" + "Dogru: %d    Yanlis: %d     Bos: %d    Score: %d", correct,incorrect,empty,score);
+        String result = String.format("\n\n\n"+"***" + "Dogru: %d    Yanlis: %d     Bos: %d    Score: %d"+"***", correct,incorrect,empty,score);
 
         builder.append(result);
 

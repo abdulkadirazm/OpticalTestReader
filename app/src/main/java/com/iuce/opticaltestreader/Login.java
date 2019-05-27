@@ -88,7 +88,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
         if (email.isEmpty()){
             //Toast.makeText(getApplicationContext(),"Email should not be empty",Toast.LENGTH_LONG).show();
-            loginEmail.setError("Email should not be");
+            loginEmail.setError("Email should not be empty");
         } else if (!isEmailValid(email)){
             //Toast.makeText(getApplicationContext(),"Enter valid email",Toast.LENGTH_SHORT).show();
             loginEmail.setError("Enter valid email");
@@ -128,7 +128,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
             if (TextUtils.isEmpty(email)){
                 //email is empty
-                Toast.makeText(getApplicationContext(),"Please enter email",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),"Email should not be empty",Toast.LENGTH_SHORT).show();
                 return;
             }
             final String email_new = ((AutoCompleteTextView) dialog.findViewById(R.id.reset_password_email)).getText().toString();

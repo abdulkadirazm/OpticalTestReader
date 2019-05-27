@@ -22,7 +22,7 @@ public class CustomAdapter extends BaseAdapter {
     public CustomAdapter(Context applicationContext, String[] questionsList) {
         this.context = context;
         this.questionsList = questionsList;
-// initialize arraylist and add static string for all the questions
+    // initialize arraylist and add static string for all the questions
         selectedAnswers = new ArrayList<>();
         for (int i = 0; i < questionsList.length; i++) {
             selectedAnswers.add("Not Attempted");
@@ -48,7 +48,7 @@ public class CustomAdapter extends BaseAdapter {
     @Override
     public View getView(final int i, View view, ViewGroup viewGroup) {
         view = inflter.inflate(R.layout.list_items, null);
-// get the reference of TextView and Button's
+    // get the reference of TextView and Button's
         TextView question = view.findViewById(R.id.txtQuestion);
         final RadioButton opt1 = view.findViewById(R.id.optA);
         final RadioButton opt2 = view.findViewById(R.id.optB);
@@ -85,55 +85,43 @@ public class CustomAdapter extends BaseAdapter {
 
 
 
-// perform setOnCheckedChangeListener event on yes button
-        opt1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-// set Yes values in ArrayList if RadioButton is checked
-                if (isChecked) {
-                    selectedAnswers.set(i, "0");
-                    opt1.setChecked(true);
-                }
+        // perform setOnCheckedChangeListener event on yes button
+        opt1.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        // set Yes values in ArrayList if RadioButton is checked
+            if (isChecked) {
+                selectedAnswers.set(i, "0");
+                opt1.setChecked(true);
             }
         });
 
-// perform setOnCheckedChangeListener event on no button
-        opt2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-// set No values in ArrayList if RadioButton is checked
-                if (isChecked) {
-                    selectedAnswers.set(i, "1");
-                    opt2.setChecked(true);
-                }
+        // perform setOnCheckedChangeListener event on no button
+        opt2.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        // set No values in ArrayList if RadioButton is checked
+            if (isChecked) {
+                selectedAnswers.set(i, "1");
+                opt2.setChecked(true);
             }
         });
 
-// perform setOnCheckedChangeListener event on no button
-        opt3.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-// set No values in ArrayList if RadioButton is checked
-                if (isChecked) {
-                    selectedAnswers.set(i, "2");
-                    opt3.setChecked(true);
-                }
+        // perform setOnCheckedChangeListener event on no button
+        opt3.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        // set No values in ArrayList if RadioButton is checked
+            if (isChecked) {
+                selectedAnswers.set(i, "2");
+                opt3.setChecked(true);
             }
         });
 
-// perform setOnCheckedChangeListener event on no button
-        opt4.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-// set No values in ArrayList if RadioButton is checked
-                if (isChecked) {
-                    selectedAnswers.set(i, "3");
-                    opt4.setChecked(true);
-                }
+        // perform setOnCheckedChangeListener event on no button
+        opt4.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        // set No values in ArrayList if RadioButton is checked
+            if (isChecked) {
+                selectedAnswers.set(i, "3");
+                opt4.setChecked(true);
             }
         });
 
-// set the value in TextView
+        // set the value in TextView
         question.setText(questionsList[i]);
         return view;
     }
