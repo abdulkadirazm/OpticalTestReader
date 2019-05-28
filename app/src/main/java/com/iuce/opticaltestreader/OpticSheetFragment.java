@@ -4,6 +4,7 @@ package com.iuce.opticaltestreader;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,7 +56,13 @@ public class OpticSheetFragment extends Fragment {
             String arrayString = gson.toJson(answerArray);
             PreferenceManager.getDefaultSharedPreferences(requireActivity()).edit().putString("exam1", arrayString).apply();
 
-            Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+            //Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+
+            HomeFragment newFragment = new HomeFragment();
+            FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.content_frame, newFragment);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
 
         });
 
