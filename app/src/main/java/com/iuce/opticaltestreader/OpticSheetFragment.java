@@ -2,6 +2,7 @@ package com.iuce.opticaltestreader;
 
 
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,9 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -18,7 +22,7 @@ public class OpticSheetFragment extends Fragment {
     public ListView simpleList;
     public String[] questions;
     public Button submit;
-
+    public List<String> answerArray;
     public OpticSheetFragment() {
         // Required empty public constructor
     }
@@ -40,16 +44,21 @@ public class OpticSheetFragment extends Fragment {
         // perform setOnClickListerner event on Button
         submit.setOnClickListener(v -> {
             String message = "";
+            answerArray = new ArrayList<>();
             // get the value of selected answers from custom adapter
             for (int i = 0; i < CustomAdapter.selectedAnswers.size(); i++) {
                 message = message + "\n" + CustomAdapter.selectedAnswers.get(i);
+                answerArray.add(CustomAdapter.selectedAnswers.get(i));
             }
             // display the message on screen with the help of Toast.
+            Gson gson = new Gson();
+            String arrayString = gson.toJson(answerArray);
+            PreferenceManager.getDefaultSharedPreferences(requireActivity()).edit().putString("exam1", arrayString).apply();
+
             Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+
         });
 
         return rootView;
     }
-
-
 }

@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
@@ -26,6 +27,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.iuce.opticaltestreader.omr.Scanner;
 
 import org.opencv.android.BaseLoaderCallback;
@@ -40,6 +43,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.List;
 
 
 public class HomeFragment extends Fragment {
@@ -47,9 +51,10 @@ public class HomeFragment extends Fragment {
     public Button btnGetImage;
     public ImageView imageView;
     public Uri imageUri;
-
+    public TextView rate2TextView;
     public Mat originalImage;
     public String answerList;
+    public String answerList2;
     public static final String IMAGE_DIRECTORY = "/OMR Sheets";
     public int GALLERY = 1, CAMERA = 2;
 
@@ -87,7 +92,7 @@ public class HomeFragment extends Fragment {
 
         btnGetImage =  rootView.findViewById(R.id.btnGetImage);
         imageView = rootView.findViewById(R.id.imageView);
-
+        rate2TextView = rootView.findViewById(R.id.rate2);
         content_frame = rootView.findViewById(R.id.content_frame);
 
         firebaseAuth = FirebaseAuth.getInstance();
@@ -112,6 +117,21 @@ public class HomeFragment extends Fragment {
         } else {
             mLoaderCallback.onManagerConnected(BaseLoaderCallback.SUCCESS);
         }
+
+        Gson gson = new Gson();
+
+        String answers =  PreferenceManager.getDefaultSharedPreferences(requireContext()).getString("exam1", null);
+        if(answers!=null){
+           List<String> answerArray = gson.fromJson(answers,new TypeToken<List<String>>(){}.getType());
+           String message = "";
+
+           for(int i=0 ; i<answerArray.size(); i++){
+               String oneRow = (i+1)+"-"+answerArray.get(i)+"\n";
+               message = message + oneRow;
+           }
+
+           rate2TextView.setText(message);
+       }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -190,6 +210,7 @@ public class HomeFragment extends Fragment {
             saveImage(bitmap);
 
             rate.setText(answerList);
+
 
             Toast.makeText(getContext(), "Image Saved!", Toast.LENGTH_SHORT).show();
 

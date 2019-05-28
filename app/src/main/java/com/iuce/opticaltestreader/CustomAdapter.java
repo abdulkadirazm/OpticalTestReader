@@ -22,7 +22,7 @@ public class CustomAdapter extends BaseAdapter {
     public CustomAdapter(Context applicationContext, String[] questionsList) {
         this.context = context;
         this.questionsList = questionsList;
-    // initialize arraylist and add static string for all the questions
+        // initialize arraylist and add static string for all the questions
         selectedAnswers = new ArrayList<>();
         for (int i = 0; i < questionsList.length; i++) {
             selectedAnswers.add("Not Attempted");
@@ -58,25 +58,25 @@ public class CustomAdapter extends BaseAdapter {
         if(selectedAnswers.get(i).equals("Not Attempted")){
 
         }
-        else  if(selectedAnswers.get(i).equals("0")){
+        else  if(selectedAnswers.get(i).equals("A")){
             opt1.setChecked(true);
             opt2.setChecked(false);
             opt3.setChecked(false);
             opt4.setChecked(false);
         }
-        else if(selectedAnswers.get(i).equals("1")){
+        else if(selectedAnswers.get(i).equals("B")){
             opt2.setChecked(true);
             opt1.setChecked(false);
             opt3.setChecked(false);
             opt4.setChecked(false);
         }
-        else if(selectedAnswers.get(i).equals("2")){
+        else if(selectedAnswers.get(i).equals("C")){
             opt3.setChecked(true);
             opt2.setChecked(false);
             opt1.setChecked(false);
             opt4.setChecked(false);
         }
-        else if(selectedAnswers.get(i).equals("3")){
+        else if(selectedAnswers.get(i).equals("D")){
             opt4.setChecked(true);
             opt2.setChecked(false);
             opt3.setChecked(false);
@@ -89,7 +89,7 @@ public class CustomAdapter extends BaseAdapter {
         opt1.setOnCheckedChangeListener((buttonView, isChecked) -> {
         // set Yes values in ArrayList if RadioButton is checked
             if (isChecked) {
-                selectedAnswers.set(i, "0");
+                selectedAnswers.set(i, "A");
                 opt1.setChecked(true);
             }
         });
@@ -98,7 +98,7 @@ public class CustomAdapter extends BaseAdapter {
         opt2.setOnCheckedChangeListener((buttonView, isChecked) -> {
         // set No values in ArrayList if RadioButton is checked
             if (isChecked) {
-                selectedAnswers.set(i, "1");
+                selectedAnswers.set(i, "B");
                 opt2.setChecked(true);
             }
         });
@@ -107,7 +107,7 @@ public class CustomAdapter extends BaseAdapter {
         opt3.setOnCheckedChangeListener((buttonView, isChecked) -> {
         // set No values in ArrayList if RadioButton is checked
             if (isChecked) {
-                selectedAnswers.set(i, "2");
+                selectedAnswers.set(i, "C");
                 opt3.setChecked(true);
             }
         });
@@ -116,7 +116,7 @@ public class CustomAdapter extends BaseAdapter {
         opt4.setOnCheckedChangeListener((buttonView, isChecked) -> {
         // set No values in ArrayList if RadioButton is checked
             if (isChecked) {
-                selectedAnswers.set(i, "3");
+                selectedAnswers.set(i, "D");
                 opt4.setChecked(true);
             }
         });
