@@ -10,7 +10,7 @@
         android:id="@+id/toolBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/bg_gradient_start"
+        android:background="@drawable/bg_gradient"
         android:layout_above="@+id/relative"
         tools:ignore="NotSibling">
 
@@ -66,7 +66,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Answer Key"
+                    android:text="@string/rate2"
                     android:layout_marginTop="20dp"
                     android:gravity="center"/>
                 <TextView
@@ -78,7 +78,16 @@
                     android:layout_marginTop="20dp"
                     android:gravity="center" />
 
+
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/examResult"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginTop="15dp"
+                android:layout_gravity="center" />
 
             <Button
                 android:layout_width="wrap_content"

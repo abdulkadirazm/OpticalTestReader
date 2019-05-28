@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">Optical Test Reader</string>
     <string name="title_activity_home_page">HomePage</string>
-    <string name="rate">Answers: </string>
+    <string name="rate">USER ANSWERS</string>
+    <string name="rate2">ANSWER KEY</string>
     <string name="emptyText">To start checking OMRs, create an answer key by tapping + at the bottom of your screen</string>
     <string-array name="questions">
         <item>1) </item>

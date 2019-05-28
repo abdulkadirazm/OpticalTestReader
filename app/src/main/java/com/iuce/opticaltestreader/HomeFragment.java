@@ -58,6 +58,7 @@ public class HomeFragment extends Fragment {
     public String answerList;
     public static final String IMAGE_DIRECTORY = "/OMR Sheets";
     public int GALLERY = 1, CAMERA = 2;
+    public Scanner scanner;
 
     public String path;
     public FrameLayout content_frame;
@@ -123,15 +124,15 @@ public class HomeFragment extends Fragment {
 
         String answers =  PreferenceManager.getDefaultSharedPreferences(requireContext()).getString("exam1", null);
         if(answers!=null){
-           List<String> answerArray = gson.fromJson(answers,new TypeToken<List<String>>(){}.getType());
-           String message = "ANSWER KEY \n\n";
+            List<String> answerArray = gson.fromJson(answers,new TypeToken<List<String>>(){}.getType());
+            String message = "ANSWER KEY \n\n";
+            for(int i=0 ; i<answerArray.size(); i++){
+                String oneRow = (i+1)+"-"+answerArray.get(i)+"\n";
+                message = message + oneRow;
+            }
+            rate2TextView.setText(message);
 
-           for(int i=0 ; i<answerArray.size(); i++){
-               String oneRow = (i+1)+"-"+answerArray.get(i)+"\n";
-               message = message + oneRow;
-           }
-           rate2TextView.setText(message);
-       }
+        }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -153,14 +154,28 @@ public class HomeFragment extends Fragment {
 
                 originalImage = Imgcodecs.imread(path);
 
-                Scanner scanner = new Scanner(originalImage, 20);
+                scanner = new Scanner(originalImage, 20);
+
+                Gson gson = new Gson();
+
+                String answers =  PreferenceManager.getDefaultSharedPreferences(requireContext()).getString("exam1", null);
+                if(answers!=null) {
+                    List<String> answerArray = gson.fromJson(answers, new TypeToken<List<String>>() {
+                    }.getType());
+                    scanner.setAnswersBy(answerArray);
+                }
 
                 scanner.setLogging(true);
 
                 final TextView textViewToChange = getActivity().findViewById(R.id.rate);
+                final TextView examResult = getActivity().findViewById(R.id.examResult);
+
+                StringBuilder builder = new StringBuilder();
 
                 try {
                     answerList = String.valueOf(scanner.scan());
+                    builder = scanner.getExamResult();
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -173,6 +188,7 @@ public class HomeFragment extends Fragment {
                 saveImage(bitmap);
 
                 textViewToChange.setText(answerList);
+                examResult.setText(builder);
 
                 Toast.makeText(getContext(), "Image Saved!", Toast.LENGTH_SHORT).show();
 
@@ -194,7 +210,7 @@ public class HomeFragment extends Fragment {
 
             originalImage = Imgcodecs.imread(path);
 
-            Scanner scanner = new Scanner(originalImage, 20);
+            scanner = new Scanner(originalImage, 20);
 
             scanner.setLogging(true);
 

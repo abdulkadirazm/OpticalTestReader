@@ -1,6 +1,6 @@
 package com.iuce.opticaltestreader.omr;
 
-import  org.opencv.core.Core;
+import org.opencv.core.Core;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
@@ -54,7 +54,8 @@ public class Scanner {
     private Rect roi;
     private Mat dilated, gray, thresh, blur, canny, adaptiveThresh, hierarchy;
     private List<MatOfPoint> contours, bubbles;
-    private List<Integer> answers, answersBy;
+    private List<Integer> answers, getAnswers;
+    private List<String> answersBy;
     private ArrayList<String> answerList;
 
     private boolean logging = false;
@@ -67,6 +68,10 @@ public class Scanner {
         contours = new ArrayList<>();
         bubbles = new ArrayList<>();
         answers = new ArrayList<>();
+    }
+
+    public void setAnswersBy(List<String> answersBy) {
+        this.answersBy = answersBy;
     }
 
     public void setLogging(boolean logging) {
@@ -120,9 +125,11 @@ public class Scanner {
 
         answerList  = new ArrayList<>();
 
+        answerList.add("USER ANSWERS\n");
+
         for(int index = 0; index < answers.size(); index++){
             Integer optionIndex = answers.get(index);
-            answerList.add((index + 1) + ". " + (optionIndex == null ? "EMPTY/INVALID" : options[optionIndex]));
+            answerList.add((index + 1) + "-" + (optionIndex == null ? "EMPTY/INVALID" : options[optionIndex]));
         }
 
 
@@ -131,15 +138,22 @@ public class Scanner {
             builder.append(details + "\n");
         }
 
-        String result = String.format("\n\n\n"+"***" + "Dogru: %d    Yanlis: %d     Bos: %d    Score: %d"+"***", correct,incorrect,empty,score);
-
-        builder.append(result);
-
         write2File(source, "result.png");
 
         this.idx = 0;
 
         return builder;
+    }
+
+    public StringBuilder getExamResult() {
+
+        StringBuilder builder = new StringBuilder();
+
+        String result = String.format("\n\n\n"+"***" + "Dogru: %d    Yanlis: %d     Bos: %d    Score: %d"+"***", correct,incorrect,empty,score);
+
+        builder.append(result);
+
+        return  builder;
     }
 
     private void findParentRectangle() throws Exception {
@@ -313,23 +327,23 @@ public class Scanner {
 
             if(logging) sout("recognizeAnswers > selection is " + (selection == null ? "empty/invalid" : selection[2]));
 
-            answersBy = getAnswerKey();
+            getAnswers = getAnswerKey();
 
             int a = this.idx++;
 
             if(selection != null){
 
-                if (answersBy.get(a) == selection[2]) {
+                if (getAnswers.get(a) == selection[2]) {
                     drawContours(source.submat(roi), Arrays.asList(rows.get(selection[2])), -1, new Scalar(0, 255, 0), 3);
                     correct++;
                 }
-                else if (answersBy.get(a) != selection[2]) {
-                    drawContours(source.submat(roi), Arrays.asList(rows.get(answersBy.get(a))), -1, new Scalar(255, 0, 0), 3);
+                else if (getAnswers.get(a) != selection[2]) {
+                    drawContours(source.submat(roi), Arrays.asList(rows.get(getAnswers.get(a))), -1, new Scalar(255, 0, 0), 3);
                     incorrect++;
                 }
                 //                putText(source.submat(roi), "(" + i + "_" + selection[2] + ")", new Point(rows.get(selection[2]).get(0, 0)), Core.FONT_HERSHEY_SIMPLEX, 0.3, new Scalar(0, 255, 0));
             } else {
-                drawContours(source.submat(roi), Arrays.asList(rows.get(answersBy.get(a))), -1, new Scalar(0, 0, 255), 3);
+                drawContours(source.submat(roi), Arrays.asList(rows.get(getAnswers.get(a))), -1, new Scalar(0, 0, 255), 3);
                 empty++;
             }
             answers.add(selection == null ? null : selection[2]);
@@ -351,52 +365,70 @@ public class Scanner {
         answers.addAll(evens);
     }
 
-    private static List<Integer> getAnswerKey()
+    private List<Integer> getAnswerKey()
     {
         List<Integer> answers = new ArrayList<>();
-        /*
-        answers.add(0); // 1- A
-        answers.add(3); // 2- D
-        answers.add(1); // 3- B
-        answers.add(0); // 4- A
-        answers.add(3); // 5- D
-        answers.add(0); // 6- A
-        answers.add(3); // 7- D
-        answers.add(2); // 8- C
-        answers.add(0); // 9- A
-        answers.add(1); // 10-B
-        answers.add(1); // 11-B
-        answers.add(0); // 12-A
-        answers.add(3); // 13-D
-        answers.add(2); // 14-C
-        answers.add(1); // 15-B
-        answers.add(3); // 16-D
-        answers.add(1); // 17-B
-        answers.add(2); // 18-C
-        answers.add(0); // 19-A
-        answers.add(3); // 20-D
-        */
-        answers.add(0); // 1- A
-        answers.add(3); // 2- D
-        answers.add(1); // 3- B
-        answers.add(1); // B
-        answers.add(1); // B
-        answers.add(0); // 6- A
-        answers.add(3); // 7- D
-        answers.add(2); // 8- C
-        answers.add(1); // B
-        answers.add(2); // C
-        answers.add(3); // D
-        answers.add(0); // A
-        answers.add(1); // B
-        answers.add(2); // 14-C
-        answers.add(1); // 15-B
-        answers.add(3); // 16-D
-        answers.add(1); // 17-B
-        answers.add(2); // 18-C
-        answers.add(0); // 19-A
-        answers.add(3); // 20-D
 
+        for(int i = 0; i < this.answersBy.size(); i++) {
+            if (answersBy.get(i).equals("A")){
+                answers.add(0);
+            } else if (answersBy.get(i).equals("B")) {
+                answers.add(1) ;
+            } else if (answersBy.get(i).equals("C")) {
+                answers.add(2);
+            } else if (answersBy.get(i).equals("D")) {
+                answers.add(3);
+            }
+        }
+
+/**
+
+ /*
+ answers.add(0); // 1- A
+ answers.add(3); // 2- D
+ answers.add(1); // 3- B
+ answers.add(0); // 4- A
+ answers.add(3); // 5- D
+ answers.add(0); // 6- A
+ answers.add(3); // 7- D
+ answers.add(2); // 8- C
+ answers.add(0); // 9- A
+ answers.add(1); // 10-B
+ answers.add(1); // 11-B
+ answers.add(0); // 12-A
+ answers.add(3); // 13-D
+ answers.add(2); // 14-C
+ answers.add(1); // 15-B
+ answers.add(3); // 16-D
+ answers.add(1); // 17-B
+ answers.add(2); // 18-C
+ answers.add(0); // 19-A
+ answers.add(3); // 20-D
+
+ ///
+
+ answers.add(0); // 1- A
+ answers.add(3); // 2- D
+ answers.add(1); // 3- B
+ answers.add(1); // B
+ answers.add(1); // B
+ answers.add(0); // 6- A
+ answers.add(3); // 7- D
+ answers.add(2); // 8- C
+ answers.add(1); // B
+ answers.add(2); // C
+ answers.add(3); // D
+ answers.add(0); // A
+ answers.add(1); // B
+ answers.add(2); // 14-C
+ answers.add(1); // 15-B
+ answers.add(3); // 16-D
+ answers.add(1); // 17-B
+ answers.add(2); // 18-C
+ answers.add(0); // 19-A
+ answers.add(3); // 20-D
+
+ **/
 
         List<Integer> firstHalf = new ArrayList<>();
         List<Integer> secondHalf = new ArrayList<>();
