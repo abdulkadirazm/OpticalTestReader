@@ -2,6 +2,7 @@ package com.iuce.opticaltestreader;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -26,7 +27,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.iuce.opticaltestreader.omr.Scanner;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.MultiplePermissionsReport;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.DexterError;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.PermissionRequestErrorListener;
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 
 import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.LoaderCallbackInterface;
@@ -40,6 +49,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.List;
 
 
 public class HomeFragment extends Fragment {
@@ -166,9 +176,11 @@ public class HomeFragment extends Fragment {
 
         } else if (requestCode == CAMERA) {
 
-            Bitmap bitmap = (Bitmap) data.getExtras().get("data");
+            //Bitmap bitmap = (Bitmap) data.getExtras().get("data");
 
-            path = saveImage(bitmap);
+            //path = saveImage(bitmap);
+
+            path = getPath(imageUri);
 
             originalImage = Imgcodecs.imread(path);
 
@@ -176,7 +188,7 @@ public class HomeFragment extends Fragment {
 
             scanner.setLogging(true);
 
-            final TextView rate = getActivity().findViewById(R.id.rate);
+            final TextView textViewToChange = getActivity().findViewById(R.id.rate);
 
             try {
                 answerList = String.valueOf(scanner.scan());
@@ -184,18 +196,27 @@ public class HomeFragment extends Fragment {
                 e.printStackTrace();
             }
 
+            /*
+            // Convert mat to bitmap
+            Utils.matToBitmap(originalImage, bitmap);
+
+            saveImage(bitmap);
+            */
+
+            Bitmap bitmap = Bitmap.createBitmap(originalImage.cols(), originalImage.rows(), Bitmap.Config.RGB_565);
+
             // Convert mat to bitmap
             Utils.matToBitmap(originalImage, bitmap);
 
             saveImage(bitmap);
 
-            rate.setText(answerList);
+            textViewToChange.setText(answerList);
 
             Toast.makeText(getContext(), "Image Saved!", Toast.LENGTH_SHORT).show();
 
             android.view.ViewGroup.LayoutParams layoutParams = imageView.getLayoutParams();
-            layoutParams.width = bitmap.getWidth();
-            layoutParams.height = bitmap.getHeight();
+            layoutParams.width = 960;
+            layoutParams.height = 1280;
 
             imageView.setLayoutParams(layoutParams);
             imageView.setImageBitmap(bitmap);
@@ -278,10 +299,13 @@ public class HomeFragment extends Fragment {
     }
 
     private void takePhotoFromCamera() {
-        Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(intent, CAMERA);
+        ContentValues values = new ContentValues();
+        values.put(MediaStore.Images.Media.TITLE, "New Picture");
+        values.put(MediaStore.Images.Media.DESCRIPTION, "From the Camera");
+        imageUri = getActivity().getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+        // Camera Intent
+        Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+        startActivityForResult(cameraIntent, CAMERA);
     }
-
-
-
 }
