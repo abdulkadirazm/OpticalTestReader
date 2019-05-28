@@ -51,7 +51,7 @@ public class OpticSheetFragment extends Fragment {
                 message = message + "\n" + CustomAdapter.selectedAnswers.get(i);
                 answerArray.add(CustomAdapter.selectedAnswers.get(i));
             }
-            // display the message on screen with the help of Toast.
+            // display the message on screen with the help of GSON.
             Gson gson = new Gson();
             String arrayString = gson.toJson(answerArray);
             PreferenceManager.getDefaultSharedPreferences(requireActivity()).edit().putString("exam1", arrayString).apply();

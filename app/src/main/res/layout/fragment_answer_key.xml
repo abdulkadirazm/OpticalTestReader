@@ -25,9 +25,20 @@
     </android.support.v7.widget.Toolbar>
 
     <TextView
+        android:id="@+id/examName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolBar"
+        android:gravity="center"
+        android:layout_margin="10dp"
+        android:textSize="20dp"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/txtEmpty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/emptyText"
+        android:text=""
         android:layout_centerInParent="true"
         android:layout_margin="15dp"
         android:textAlignment="center"

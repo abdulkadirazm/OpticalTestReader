@@ -56,7 +56,6 @@ public class HomeFragment extends Fragment {
     public TextView rate2TextView;
     public Mat originalImage;
     public String answerList;
-    public String answerList2;
     public static final String IMAGE_DIRECTORY = "/OMR Sheets";
     public int GALLERY = 1, CAMERA = 2;
 
@@ -131,7 +130,6 @@ public class HomeFragment extends Fragment {
                String oneRow = (i+1)+"-"+answerArray.get(i)+"\n";
                message = message + oneRow;
            }
-
            rate2TextView.setText(message);
        }
     }
