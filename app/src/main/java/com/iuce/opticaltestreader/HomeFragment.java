@@ -125,7 +125,7 @@ public class HomeFragment extends Fragment {
         String answers =  PreferenceManager.getDefaultSharedPreferences(requireContext()).getString("exam1", null);
         if(answers!=null){
            List<String> answerArray = gson.fromJson(answers,new TypeToken<List<String>>(){}.getType());
-           String message = "";
+           String message = "ANSWER KEY \n\n";
 
            for(int i=0 ; i<answerArray.size(); i++){
                String oneRow = (i+1)+"-"+answerArray.get(i)+"\n";
