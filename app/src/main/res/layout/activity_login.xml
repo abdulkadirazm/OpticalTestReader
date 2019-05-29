@@ -12,7 +12,7 @@
     <ImageView
         android:layout_width="250dp"
         android:layout_height="250dp"
-        android:src="@drawable/log"
+        android:src="@drawable/logo"
         android:layout_gravity="center"/>
 
     <android.support.design.widget.TextInputLayout
