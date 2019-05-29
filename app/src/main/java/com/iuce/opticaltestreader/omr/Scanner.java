@@ -110,9 +110,9 @@ public class Scanner {
 
         recognizeAnswers();
 
-        score = correct * 5;
+        score = correct * 100 / questionCount;
 
-        Imgproc.putText(source, String.format("Dogru: %d    Yanlis: %d     Bos: %d    Score: %d", correct,incorrect,empty,score) ,
+        Imgproc.putText(source, String.format("True: %d    False: %d     Empty: %d    Score: %d", correct,incorrect,empty,score) ,
                 new Point(10, 30),
                 Core.FONT_HERSHEY_SIMPLEX, 0.9, new Scalar(0, 0, 255), 2);
 
@@ -129,7 +129,7 @@ public class Scanner {
 
         for(int index = 0; index < answers.size(); index++){
             Integer optionIndex = answers.get(index);
-            answerList.add((index + 1) + "-" + (optionIndex == null ? "EMPTY/INVALID" : options[optionIndex]));
+            answerList.add((index + 1) +(index < 9 ? "-  " : "- " ) + (optionIndex == null ? "EMPTY/INVALID" : (options[optionIndex].equals(answersBy.get(index)) ? options[optionIndex] + "   // T" : options[optionIndex] + "   // F")));
         }
 
 
@@ -149,7 +149,7 @@ public class Scanner {
 
         StringBuilder builder = new StringBuilder();
 
-        String result = String.format("\n\n\n"+"***" + "Dogru: %d    Yanlis: %d     Bos: %d    Score: %d"+"***", correct,incorrect,empty,score);
+        String result = String.format("\n\n\n"+"*** " + "True: %d    False: %d     Empty: %d    Score: %d"+" ***", correct,incorrect,empty,score);
 
         builder.append(result);
 

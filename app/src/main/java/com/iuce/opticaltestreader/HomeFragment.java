@@ -1,9 +1,7 @@
 package com.iuce.opticaltestreader;
 
-import android.Manifest;
 import android.app.AlertDialog;
 import android.content.ContentValues;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -30,7 +28,6 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
 import com.iuce.opticaltestreader.omr.Scanner;
 
 import org.opencv.android.BaseLoaderCallback;
@@ -126,8 +123,8 @@ public class HomeFragment extends Fragment {
         if(answers!=null){
             List<String> answerArray = gson.fromJson(answers,new TypeToken<List<String>>(){}.getType());
             String message = "ANSWER KEY \n\n";
-            for(int i=0 ; i<answerArray.size(); i++){
-                String oneRow = (i+1)+"-"+answerArray.get(i)+"\n";
+            for(int i = 0 ; i < answerArray.size(); i++){
+                String oneRow = (i + 1) + (i < 9 ? "-  " : "- " ) + answerArray.get(i) + "\n";
                 message = message + oneRow;
             }
             rate2TextView.setText(message);
