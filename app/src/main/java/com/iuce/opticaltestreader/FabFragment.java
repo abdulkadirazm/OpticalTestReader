@@ -34,10 +34,10 @@ public class FabFragment extends Fragment {
             if (examName.isEmpty()){
                 Toast.makeText(getActivity(),"Exam name should not be empty",Toast.LENGTH_SHORT).show();
             }
-            else
+            else {
                 PreferenceManager.getDefaultSharedPreferences(requireActivity()).edit().putString("ExamName", examName).apply();
-
                 fragmentIntent();
+            }
         });
 
         return rootView;

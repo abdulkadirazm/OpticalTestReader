@@ -41,6 +41,7 @@ public class AnswerKeyFragment extends Fragment {
 
         Gson gson = new Gson();
         String exam =  PreferenceManager.getDefaultSharedPreferences(requireContext()).getString("ExamName", null);
+
         if (exam!=null){
             examName.setText(exam + " Exam");
         }

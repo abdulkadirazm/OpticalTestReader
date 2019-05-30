@@ -32,8 +32,6 @@ public class ProfilFragment extends Fragment {
     public Button btnSignout;
     public TextView textName;
     private ListView profilListview;
-    private List<String> LiftSaves = new ArrayList<String>();
-
     public String[] links = {"Tutorial","Answer Sheets","Open Source Libraries","Privacy Policy","Contact Us","About"};
 
     public ProfilFragment() {
@@ -58,6 +56,13 @@ public class ProfilFragment extends Fragment {
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getActivity(),
                 android.R.layout.simple_list_item_1,android.R.id.text1,links);
         profilListview.setAdapter(arrayAdapter);
+
+        profilListview.setOnItemClickListener((parent, view1, position, id) -> {
+
+            if (position == 0){
+                Toast.makeText(getActivity(),position+". Click",Toast.LENGTH_SHORT).show();
+            }
+        });
 
 
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("User");

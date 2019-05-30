@@ -71,7 +71,7 @@
             android:textColor="@color/white"
             android:textColorHint="@color/white"
             android:textSize="18sp"
-            android:imeOptions="actionSend"
+            android:imeOptions="actionDone"
             android:theme="@style/Autocomplete"/>
 
     </android.support.design.widget.TextInputLayout>
