@@ -2,6 +2,7 @@ package com.iuce.opticaltestreader;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -29,7 +30,7 @@ public class ProfilFragment extends Fragment {
     public Button btnSignout;
     public TextView textName;
     private ListView profilListview;
-    public String[] links = {"Tutorial","Answer Sheets","Open Source Libraries","Privacy Policy","Contact Us","About"};
+    public String[] links = {"Tutorial","Answer Sheets","Open Source Libraries","Privacy Policy","Contact Us","Share App","About"};
 
     public ProfilFragment() {
         // Required empty public constructor
@@ -57,7 +58,14 @@ public class ProfilFragment extends Fragment {
         profilListview.setOnItemClickListener((parent, view1, position, id) -> {
 
             if (position == 0){
-                Toast.makeText(getActivity(),position+". Click",Toast.LENGTH_SHORT).show();
+
+            }
+            else if (position == 4){
+                aboutUs();
+            }else if (position == 5){
+                shareApp();
+            } else if (position == 6){
+                showAbout();
             }
         });
 
@@ -100,5 +108,40 @@ public class ProfilFragment extends Fragment {
 
         AlertDialog alert11 = builder1.create();
         alert11.show();
+    }
+    protected void showAbout() {
+        // Inflate the about_app message contents
+        View messageView = getLayoutInflater().inflate(R.layout.about_app, null, false);
+
+        // When linking text, force to always use default color. This works
+        // around a pressed color state bug.
+        TextView textView =  messageView.findViewById(R.id.txtAbout);
+        int defaultColor = textView.getTextColors().getDefaultColor();
+        textView.setTextColor(defaultColor);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setView(messageView);
+        builder.create();
+        builder.show();
+    }
+    public void shareApp() {
+        Intent myIntent = new Intent(Intent.ACTION_SEND);
+        myIntent.setType("text/plain");
+        String shareBody = "";
+        String shareSub = "https://play.google.com/store/apps/details?id=com.opticaltestreader=tr";
+        myIntent.putExtra(Intent.EXTRA_SUBJECT,shareBody);
+        myIntent.putExtra(Intent.EXTRA_TEXT,shareSub);
+        startActivity(Intent.createChooser(myIntent,"Share using"));
+    }
+    public void aboutUs(){
+        // Inflate the about_app message contents
+        View messageView = getLayoutInflater().inflate(R.layout.about_us, null, false);
+
+        // When linking text, force to always use default color. This works
+        // around a pressed color state bug.
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setView(messageView);
+        builder.create();
+        builder.show();
     }
 }

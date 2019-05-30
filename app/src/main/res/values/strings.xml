@@ -26,7 +26,11 @@
         <item>19) </item>
         <item>20) </item>
     </string-array>
+    <string name="about">OMR, the multiple choice test scanner app, assess the answer sheets by using your Android device\'s camera. You can get the sheet by emailing us at "opticaltestreader@gmail.com", and you are ready to fill it and check it. It saves your time of manually checking and maintaining the sheets.
+    Great for formative assessments, summative assessments or regular quizzes. It gives teachers the flexibility to scan papers instantly anywhere.</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="about_1">https://www.linkedin.com/in/ibrahim-demir-2b4323b1/</string>
+    <string name="about_2">https://www.linkedin.com/in/abdulkadir-azmano%C4%9Flu-3b5876150/</string>
 </resources>
