@@ -4,6 +4,7 @@
     android:id="@+id/relative"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <android.support.v7.widget.Toolbar
@@ -48,12 +49,11 @@
             tools:context=".HomePage">
 
             <ImageView
-                android:layout_width="150dp"
-                android:layout_height="150dp"
+                android:layout_width="300dp"
+                android:layout_height="350dp"
                 android:layout_gravity="center"
-                android:layout_marginTop="20dp"
-                android:src="@drawable/camera_icon"
-                android:id="@+id/imageView"/>
+                android:id="@+id/imageView"
+                android:src="@drawable/logo"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -68,7 +68,8 @@
                     android:layout_weight="1"
                     android:text="@string/rate2"
                     android:layout_marginTop="20dp"
-                    android:gravity="center"/>
+                    android:gravity="center"
+                    android:textColor="@color/white"/>
                 <TextView
                     android:id="@+id/rate"
                     android:layout_width="0dp"
@@ -76,7 +77,8 @@
                     android:layout_weight="1"
                     android:text="@string/rate"
                     android:layout_marginTop="20dp"
-                    android:gravity="center" />
+                    android:gravity="center"
+                    android:textColor="@color/white"/>
 
 
             </LinearLayout>
@@ -87,7 +89,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_marginTop="15dp"
-                android:layout_gravity="center" />
+                android:layout_gravity="center"
+                android:textColor="@color/white"/>
 
             <Button
                 android:layout_width="wrap_content"

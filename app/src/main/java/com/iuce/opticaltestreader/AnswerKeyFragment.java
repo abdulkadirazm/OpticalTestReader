@@ -1,18 +1,14 @@
 package com.iuce.opticaltestreader;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -25,6 +21,7 @@ public class AnswerKeyFragment extends Fragment {
     public FloatingActionButton fab;
     public TextView examName;
     public TextView txtEmpty;
+    public TextView lastKey;
 
     public AnswerKeyFragment() {
         // Required empty public constructor
@@ -38,6 +35,7 @@ public class AnswerKeyFragment extends Fragment {
 
         txtEmpty = view.findViewById(R.id.txtEmpty);
         examName = view.findViewById(R.id.examName);
+        lastKey = view.findViewById(R.id.lastKey);
 
         Gson gson = new Gson();
         String exam =  PreferenceManager.getDefaultSharedPreferences(requireContext()).getString("ExamName", null);
@@ -59,5 +57,24 @@ public class AnswerKeyFragment extends Fragment {
         });
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        Gson gson = new Gson();
+
+        String answers =  PreferenceManager.getDefaultSharedPreferences(requireContext()).getString("exam1", null);
+        if(answers!=null){
+            List<String> answerArray = gson.fromJson(answers,new TypeToken<List<String>>(){}.getType());
+            String message = "";
+            for(int i = 0 ; i < answerArray.size(); i++){
+                String oneRow = (i + 1) + (i < 9 ? "-  " : "- " ) + answerArray.get(i) + "\n";
+                message = message + oneRow;
+            }
+            lastKey.setText(message);
+
+        }
     }
 }

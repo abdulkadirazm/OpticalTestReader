@@ -1,11 +1,11 @@
 package com.iuce.opticaltestreader;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,9 +21,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class ProfilFragment extends Fragment {
@@ -84,8 +81,24 @@ public class ProfilFragment extends Fragment {
         return view;
     }
     public void logOut(){
-        firebaseAuth.signOut();
-        startActivity(new Intent(getActivity(), Login.class));
-        getActivity().finish();
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(getActivity());
+        builder1.setTitle("Do you want to exit?");
+        builder1.setIcon(R.drawable.warning);
+        builder1.setCancelable(true);
+
+        builder1.setPositiveButton(
+                "Yes",
+                (dialog, id) -> {
+                    firebaseAuth.signOut();
+                    startActivity(new Intent(getActivity(), Login.class));
+                    getActivity().finish();
+                });
+
+        builder1.setNegativeButton(
+                "No",
+                (dialog, id) -> dialog.cancel());
+
+        AlertDialog alert11 = builder1.create();
+        alert11.show();
     }
 }

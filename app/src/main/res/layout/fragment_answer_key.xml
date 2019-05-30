@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AnswerKeyFragment">
+    tools:context=".AnswerKeyFragment"
+    android:background="@drawable/background">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolBar"
@@ -32,7 +33,19 @@
         android:gravity="center"
         android:layout_margin="10dp"
         android:textSize="20dp"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        android:textColor="@color/white"/>
+
+    <TextView
+        android:id="@+id/lastKey"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/rate2"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:layout_below="@+id/examName"/>
 
     <TextView
         android:id="@+id/txtEmpty"
@@ -42,7 +55,8 @@
         android:layout_centerInParent="true"
         android:layout_margin="15dp"
         android:textAlignment="center"
-        android:textSize="18dp"/>
+        android:textSize="18dp"
+        android:textColor="@color/white"/>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
@@ -51,6 +65,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:src="@drawable/add"
-        android:layout_margin="15dp"/>
+        android:layout_margin="15dp"
+        android:backgroundTint="@color/white"/>
 
 </RelativeLayout>

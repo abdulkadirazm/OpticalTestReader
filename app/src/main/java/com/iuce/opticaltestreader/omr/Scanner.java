@@ -112,7 +112,7 @@ public class Scanner {
 
         score = correct * 100 / questionCount;
 
-        Imgproc.putText(source, String.format("True: %d    False: %d     Empty: %d    Score: %d", correct,incorrect,empty,score) ,
+        Imgproc.putText(source, String.format("TRUE: %d    FALSE: %d     EMPTY/INVALID: %d    SCORE: %d", correct,incorrect,empty,score) ,
                 new Point(10, 30),
                 Core.FONT_HERSHEY_SIMPLEX, 0.9, new Scalar(0, 0, 255), 2);
 
@@ -149,7 +149,7 @@ public class Scanner {
 
         StringBuilder builder = new StringBuilder();
 
-        String result = String.format("\n\n\n"+"*** " + "True: %d    False: %d     Empty: %d    Score: %d"+" ***", correct,incorrect,empty,score);
+        String result = String.format("\n\n\n" + "TRUE: %d    FALSE: %d     EMPTY/INVALID: %d    SCORE: %d", correct,incorrect,empty,score);
 
         builder.append(result);
 

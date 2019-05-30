@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -58,7 +57,7 @@ public class OpticSheetFragment extends Fragment {
 
             //Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
 
-            HomeFragment newFragment = new HomeFragment();
+            AnswerKeyFragment newFragment = new AnswerKeyFragment();
             FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.content_frame, newFragment);
             fragmentTransaction.addToBackStack(null);

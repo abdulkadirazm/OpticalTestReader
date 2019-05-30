@@ -41,6 +41,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -101,7 +102,13 @@ public class HomeFragment extends Fragment {
             //finish();
         }
 
-        btnGetImage.setOnClickListener(v -> showPictureDialog());
+        btnGetImage.setOnClickListener(v -> {
+            String answers =  PreferenceManager.getDefaultSharedPreferences(requireContext()).getString("exam1", null);
+            if(answers==null){
+                Toast.makeText(getContext(), "To start checking OMRs, create an answer key by tapping + at the bottom of answer key screen.", Toast.LENGTH_LONG).show();
+            } else
+                showPictureDialog();
+        });
 
         return rootView;
 
@@ -116,20 +123,6 @@ public class HomeFragment extends Fragment {
         } else {
             mLoaderCallback.onManagerConnected(BaseLoaderCallback.SUCCESS);
         }
-
-        Gson gson = new Gson();
-
-        String answers =  PreferenceManager.getDefaultSharedPreferences(requireContext()).getString("exam1", null);
-        if(answers!=null){
-            List<String> answerArray = gson.fromJson(answers,new TypeToken<List<String>>(){}.getType());
-            String message = "ANSWER KEY \n\n";
-            for(int i = 0 ; i < answerArray.size(); i++){
-                String oneRow = (i + 1) + (i < 9 ? "-  " : "- " ) + answerArray.get(i) + "\n";
-                message = message + oneRow;
-            }
-            rate2TextView.setText(message);
-
-        }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -142,6 +135,23 @@ public class HomeFragment extends Fragment {
         }
         if (requestCode == GALLERY) {
             if (data != null) {
+
+                List<String> answerArray = new ArrayList<>();
+
+                Gson gson = new Gson();
+
+                String answers =  PreferenceManager.getDefaultSharedPreferences(requireContext()).getString("exam1", null);
+                if(answers!=null){
+                    answerArray = gson.fromJson(answers,new TypeToken<List<String>>(){}.getType());
+                    String message = "ANSWER KEY \n\n";
+                    for(int i = 0 ; i < answerArray.size(); i++){
+                        String oneRow = (i + 1) + (i < 9 ? "-  " : "- " ) + answerArray.get(i) + "\n";
+                        message = message + oneRow;
+                    }
+                    rate2TextView.setText(message);
+
+                }
+
                 //Uri contentURI = data.getData();
                 //Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), contentURI);
 
@@ -153,14 +163,7 @@ public class HomeFragment extends Fragment {
 
                 scanner = new Scanner(originalImage, 20);
 
-                Gson gson = new Gson();
-
-                String answers =  PreferenceManager.getDefaultSharedPreferences(requireContext()).getString("exam1", null);
-                if(answers!=null) {
-                    List<String> answerArray = gson.fromJson(answers, new TypeToken<List<String>>() {
-                    }.getType());
-                    scanner.setAnswersBy(answerArray);
-                }
+                scanner.setAnswersBy(answerArray);
 
                 scanner.setLogging(true);
 
@@ -173,31 +176,47 @@ public class HomeFragment extends Fragment {
                     answerList = String.valueOf(scanner.scan());
                     builder = scanner.getExamResult();
 
+                    Bitmap bitmap = Bitmap.createBitmap(originalImage.cols(), originalImage.rows(), Bitmap.Config.RGB_565);
+
+                    // Convert mat to bitmap
+                    Utils.matToBitmap(originalImage, bitmap);
+
+                    saveImage(bitmap);
+
+                    textViewToChange.setText(answerList);
+                    examResult.setText(builder);
+
+                    Toast.makeText(getContext(), "Image Saved!", Toast.LENGTH_SHORT).show();
+
+                    android.view.ViewGroup.LayoutParams layoutParams = imageView.getLayoutParams();
+                    layoutParams.width = bitmap.getWidth();
+                    layoutParams.height = bitmap.getHeight();
+
+                    imageView.setLayoutParams(layoutParams);
+                    imageView.setImageBitmap(bitmap);
+
                 } catch (Exception e) {
                     e.printStackTrace();
+                    Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
                 }
-
-                Bitmap bitmap = Bitmap.createBitmap(originalImage.cols(), originalImage.rows(), Bitmap.Config.RGB_565);
-
-                // Convert mat to bitmap
-                Utils.matToBitmap(originalImage, bitmap);
-
-                saveImage(bitmap);
-
-                textViewToChange.setText(answerList);
-                examResult.setText(builder);
-
-                Toast.makeText(getContext(), "Image Saved!", Toast.LENGTH_SHORT).show();
-
-                android.view.ViewGroup.LayoutParams layoutParams = imageView.getLayoutParams();
-                layoutParams.width = bitmap.getWidth();
-                layoutParams.height = bitmap.getHeight();
-
-                imageView.setLayoutParams(layoutParams);
-                imageView.setImageBitmap(bitmap);
             }
 
         } else if (requestCode == CAMERA) {
+
+
+            Gson gson = new Gson();
+
+            String answers =  PreferenceManager.getDefaultSharedPreferences(requireContext()).getString("exam1", null);
+            if(answers!=null){
+                List<String> answerArray = gson.fromJson(answers,new TypeToken<List<String>>(){}.getType());
+                String message = "ANSWER KEY \n\n";
+                for(int i = 0 ; i < answerArray.size(); i++){
+                    String oneRow = (i + 1) + (i < 9 ? "-  " : "- " ) + answerArray.get(i) + "\n";
+                    message = message + oneRow;
+                }
+                rate2TextView.setText(message);
+
+            }
 
             //Bitmap bitmap = (Bitmap) data.getExtras().get("data");
 
@@ -215,35 +234,36 @@ public class HomeFragment extends Fragment {
 
             try {
                 answerList = String.valueOf(scanner.scan());
+
+                Bitmap bitmap = Bitmap.createBitmap(originalImage.cols(), originalImage.rows(), Bitmap.Config.RGB_565);
+
+                // Convert mat to bitmap
+                Utils.matToBitmap(originalImage, bitmap);
+
+                saveImage(bitmap);
+
+                textViewToChange.setText(answerList);
+
+
+                Toast.makeText(getContext(), "Image Saved!", Toast.LENGTH_SHORT).show();
+
+                android.view.ViewGroup.LayoutParams layoutParams = imageView.getLayoutParams();
+                layoutParams.width = 960;
+                layoutParams.height = 1280;
+
+                imageView.setLayoutParams(layoutParams);
+                imageView.setImageBitmap(bitmap);
+
             } catch (Exception e) {
                 e.printStackTrace();
+                Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
             }
-
             /*
             // Convert mat to bitmap
             Utils.matToBitmap(originalImage, bitmap);
 
             saveImage(bitmap);
             */
-
-            Bitmap bitmap = Bitmap.createBitmap(originalImage.cols(), originalImage.rows(), Bitmap.Config.RGB_565);
-
-            // Convert mat to bitmap
-            Utils.matToBitmap(originalImage, bitmap);
-
-            saveImage(bitmap);
-
-            textViewToChange.setText(answerList);
-
-
-            Toast.makeText(getContext(), "Image Saved!", Toast.LENGTH_SHORT).show();
-
-            android.view.ViewGroup.LayoutParams layoutParams = imageView.getLayoutParams();
-            layoutParams.width = 960;
-            layoutParams.height = 1280;
-
-            imageView.setLayoutParams(layoutParams);
-            imageView.setImageBitmap(bitmap);
         }
     }
 
