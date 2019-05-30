@@ -45,12 +45,13 @@
         android:id="@+id/btnSignout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Signout"
+        android:text="Sign out"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_margin="20dp"
         android:padding="5dp"
         android:background="@drawable/button"
-        android:textColor="#FFF"/>
+        android:textColor="#FFF"
+        android:textAllCaps="false"/>
 
 </RelativeLayout>

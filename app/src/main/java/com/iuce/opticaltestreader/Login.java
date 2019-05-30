@@ -97,7 +97,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         } else if (password.length() < 6){
             Toast.makeText(getApplicationContext(),"Password too short, enter minimum 6 characters!",Toast.LENGTH_SHORT).show();
         } else {
-            progressDialog.setMessage("Registering Please Wait..");
+            progressDialog.setMessage("Please wait..");
             progressDialog.show();
 
             firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
