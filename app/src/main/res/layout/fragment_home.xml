@@ -49,19 +49,11 @@
             android:orientation="vertical"
             tools:context=".HomePage">
 
-            <com.jsibbold.zoomage.ZoomageView
+            <ImageView
                 android:id="@+id/imageView"
-                android:layout_width="wrap_content"
-                android:layout_height="250dp"
+                android:layout_width="300dp"
+                android:layout_height="300dp"
                 android:src="@drawable/logo"
-                app:zoomage_restrictBounds="false"
-                app:zoomage_animateOnReset="true"
-                app:zoomage_autoResetMode="UNDER"
-                app:zoomage_autoCenter="true"
-                app:zoomage_zoomable="true"
-                app:zoomage_translatable="true"
-                app:zoomage_minScale="0.6"
-                app:zoomage_maxScale="8"
                 android:layout_gravity="center"/>
 
             <LinearLayout
