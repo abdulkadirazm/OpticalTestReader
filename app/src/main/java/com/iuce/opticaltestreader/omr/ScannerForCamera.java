@@ -81,7 +81,7 @@ public class ScannerForCamera {
         score = correct * 100 / questionCount;
 
         Imgproc.putText(source, String.format("TRUE: %d    FALSE: %d     EMPTY/INVALID: %d    SCORE: %d", correct,incorrect,empty,score) ,
-                new Point(10, 30),
+                new Point(30, 40),
                 Core.FONT_HERSHEY_SIMPLEX, 0.9, new Scalar(0, 0, 255), 2);
 
 
