@@ -29,6 +29,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.iuce.opticaltestreader.omr.Scanner;
+import com.iuce.opticaltestreader.omr.ScannerForCamera;
 
 import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.LoaderCallbackInterface;
@@ -57,6 +58,7 @@ public class HomeFragment extends Fragment {
     public static final String IMAGE_DIRECTORY = "/OMR Sheets";
     public int GALLERY = 1, CAMERA = 2;
     public Scanner scanner;
+    public ScannerForCamera scannerForCamera;
 
     public String path;
     public FrameLayout content_frame;
@@ -170,7 +172,7 @@ public class HomeFragment extends Fragment {
                 final TextView textViewToChange = getActivity().findViewById(R.id.rate);
                 final TextView examResult = getActivity().findViewById(R.id.examResult);
 
-                StringBuilder builder = new StringBuilder();
+                StringBuilder builder;
 
                 try {
                     answerList = String.valueOf(scanner.scan());
@@ -203,12 +205,13 @@ public class HomeFragment extends Fragment {
 
         } else if (requestCode == CAMERA) {
 
+            List<String> answerArray = new ArrayList<>();
 
             Gson gson = new Gson();
 
             String answers =  PreferenceManager.getDefaultSharedPreferences(requireContext()).getString("exam1", null);
             if(answers!=null){
-                List<String> answerArray = gson.fromJson(answers,new TypeToken<List<String>>(){}.getType());
+                answerArray = gson.fromJson(answers,new TypeToken<List<String>>(){}.getType());
                 String message = "ANSWER KEY \n\n";
                 for(int i = 0 ; i < answerArray.size(); i++){
                     String oneRow = (i + 1) + (i < 9 ? "-  " : "- " ) + answerArray.get(i) + "\n";
@@ -226,14 +229,20 @@ public class HomeFragment extends Fragment {
 
             originalImage = Imgcodecs.imread(path);
 
-            scanner = new Scanner(originalImage, 20);
+            scannerForCamera = new ScannerForCamera(originalImage, 20);
 
-            scanner.setLogging(true);
+            scannerForCamera.setAnswersBy(answerArray);
+
+            scannerForCamera.setLogging(true);
 
             final TextView textViewToChange = getActivity().findViewById(R.id.rate);
+            final TextView examResult = getActivity().findViewById(R.id.examResult);
+
+            StringBuilder builder;
 
             try {
-                answerList = String.valueOf(scanner.scan());
+                answerList = String.valueOf(scannerForCamera.scan());
+                builder = scannerForCamera.getExamResult();
 
                 Bitmap bitmap = Bitmap.createBitmap(originalImage.cols(), originalImage.rows(), Bitmap.Config.RGB_565);
 
@@ -243,7 +252,7 @@ public class HomeFragment extends Fragment {
                 saveImage(bitmap);
 
                 textViewToChange.setText(answerList);
-
+                examResult.setText(builder);
 
                 Toast.makeText(getContext(), "Image Saved!", Toast.LENGTH_SHORT).show();
 
