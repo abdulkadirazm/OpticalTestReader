@@ -5,9 +5,12 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -30,7 +33,8 @@ public class ProfilFragment extends Fragment {
     public Button btnSignout;
     public TextView textName;
     private ListView profilListview;
-    public String[] links = {"Tutorial","Answer Sheets","Open Source Libraries","Privacy Policy","Contact Us","Share App","About"};
+    public String[] links = {"About","Share App","Contact Us"};
+    public Toolbar toolbar;
 
     public ProfilFragment() {
         // Required empty public constructor
@@ -48,6 +52,19 @@ public class ProfilFragment extends Fragment {
         profilListview = view.findViewById(R.id.profilListview);
         firebaseAuth = FirebaseAuth.getInstance();
 
+        toolbar =  view.findViewById(R.id.toolBar);
+        toolbar.inflateMenu(R.menu.toolbar);
+
+        toolbar.setOnMenuItemClickListener(menuItem -> {
+            switch (menuItem.getItemId()){
+
+                case R.id.email:
+                    sendEmail();
+                    break;
+            }
+            return true;
+        });
+
         // Firebase Signout Click
         btnSignout.setOnClickListener(v -> logOut());
 
@@ -58,14 +75,12 @@ public class ProfilFragment extends Fragment {
         profilListview.setOnItemClickListener((parent, view1, position, id) -> {
 
             if (position == 0){
-
-            }
-            else if (position == 4){
-                aboutUs();
-            }else if (position == 5){
-                shareApp();
-            } else if (position == 6){
                 showAbout();
+            }
+            else if (position == 1){
+                shareApp();
+            }else if (position == 2){
+                aboutUs();
             }
         });
 
@@ -143,5 +158,18 @@ public class ProfilFragment extends Fragment {
         builder.setView(messageView);
         builder.create();
         builder.show();
+    }
+
+    public void sendEmail(){
+        Intent i = new Intent(Intent.ACTION_SEND);
+        i.setType("message/rfc822");
+        i.putExtra(Intent.EXTRA_EMAIL  , new String[]{"opticaltestreader@gmail.com"});
+        i.putExtra(Intent.EXTRA_SUBJECT, "subject of email");
+        i.putExtra(Intent.EXTRA_TEXT   , "body of email");
+        try {
+            startActivity(Intent.createChooser(i, "Send mail..."));
+        } catch (android.content.ActivityNotFoundException ex) {
+            Toast.makeText(getActivity(), "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+        }
     }
 }
